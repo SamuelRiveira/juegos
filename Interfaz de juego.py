@@ -117,11 +117,91 @@ def juego2():
     root2.mainloop()
 
 
-def juego3():
+def juego3(event):
+    def verificar_respuesta(opcion, correcta, puntos, indexOpcion):
+
+        if opcion == correcta:
+            print("\nCorrecto")
+            puntos += 1
+        else:
+            print(f"Incorrecto. La respuesta correcta era: {correcta}")
+
+        indexOpcion += 1
+        if indexOpcion < 5:
+            mostrar_palabra(puntos, indexOpcion)
+        else:
+            print(f"\nHas obtenido {puntos} puntos")
+            print("\nVolviendo al menú")
+            root4.quit()
+
+    def mostrar_palabra(puntos, indexOpcion):
+        color_fondo = "#FFFFFF"
+
+        palabraAdivinar = random.choice(list(palabras.keys()))
+        print(palabraAdivinar)
+        correcta = palabras[palabraAdivinar]
+
+        opcion_label1 = ttk.Label(canvas4, text=correcta)
+        opcion_label1.pack()
+        canvas4.create_window(350, 200, anchor="nw", window=opcion_label1)
+        opcion_label1.bind("<Button-1>", lambda event: verificar_respuesta(correcta, correcta, puntos, indexOpcion))
+
+
+        opcion_label2 = ttk.Label(canvas4, text=random.choice(list(palabras.values())))
+        opcion_label2.pack()
+        opcion_label2.config(background=color_fondo)
+        canvas4.create_window(450, 200, anchor="nw", window=opcion_label2)
+        opcion_label2.bind("<Button-1>", lambda event: verificar_respuesta(random.choice(list(palabras.values())), puntos, indexOpcion))
+
+        opcion_label3 = ttk.Label(canvas4, text=random.choice(list(palabras.values())))
+        opcion_label3.pack()
+        opcion_label3.config(background=color_fondo)
+        canvas4.create_window(550, 200, anchor="nw", window=opcion_label3)
+        opcion_label2.bind("<Button-1>", lambda event: verificar_respuesta(random.choice(list(palabras.values())), correcta, puntos, indexOpcion))
+
+    puntos = tk.StringVar()
+    puntos = 0
+    indexOpcion = 0
+
     root.destroy()
-    root2 = tk.Tk()
-    root2.resizable(False, False)
-    root2.title("Traduce la palabra")
+    root4 = tk.Tk()
+    root4.resizable(False, False)
+    root4.title("Traduce la palabra")
+
+    archi14 = Image.open("imagenesJuegos/charla.jpeg").resize((850, 700))
+    archi14_photo = ImageTk.PhotoImage(archi14)
+    canvas4 = tk.Canvas(root4, width=850, height=700, background="white")
+    canvas4.pack(fill="both", expand=True)
+    canvas4.create_image(0, 0, image=archi14_photo, anchor="nw")
+
+    archi15 = Image.open("imagenesJuegos/traducir_palabra.png").resize((200, 50))
+    archi15_photo = ImageTk.PhotoImage(archi15)
+    canvas4.create_image(300, 250, image=archi15_photo, anchor="nw")
+
+    palabras = {
+        "Hello": "Hola",
+        "World": "Mundo",
+        "Cat": "Gato",
+        "Dog": "Perro",
+        "Fish": "Pez",
+        "Bird": "Pájaro",
+        "Programming": "Programación",
+        "Language": "Lenguaje",
+        "Developer": "Desarrollador",
+        "Carpet": "Alfombra",
+        "Apple": "Manzana",
+        "Orange": "Naranja",
+        "Banana": "Plátano",
+        "Water": "Agua",
+        "Chair": "Silla",
+        "Window": "Ventana",
+        "Sun": "Sol",
+        "Mountain": "Montaña",
+        "Friend": "Amigo",
+        "Pencil": "Lápiz"
+    }
+    mostrar_palabra(puntos, indexOpcion)
+    root4.mainloop()
 
 
 if __name__ == "__main__":
